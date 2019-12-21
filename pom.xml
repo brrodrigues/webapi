@@ -27,6 +27,7 @@
     <maven.compiler.target>1.7</maven.compiler.target>
     <jersey2.version>2.19</jersey2.version>
     <jaxrs.version>2.1</jaxrs.version>
+    <tomcat.version>9.0.24</tomcat.version>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -102,6 +103,12 @@
       <artifactId>weld-servlet-shaded</artifactId>
       <version>3.0.2.Final</version>
     </dependency>
+
+    <dependency>
+      <groupId>org.apache.tomcat.embed</groupId>
+      <artifactId>tomcat-embed-core</artifactId>
+      <version>${tomcat.version}</version>
+    </dependency>
   </dependencies>
 
   <build>
@@ -115,7 +122,51 @@
             <target>1.7</target>
           </configuration>
         </plugin>
+        <plugin>
+          <groupId>org.apache.tomcat.maven</groupId>
+          <artifactId>tomcat6-maven-plugin</artifactId>
+          <version>2.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.tomcat.maven</groupId>
+          <artifactId>tomcat7-maven-plugin</artifactId>
+          <version>2.0</version>
+        </plugin>
       </plugins>
     </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>6</source>
+          <target>6</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.tomcat.maven</groupId>
+        <artifactId>tomcat7-maven-plugin</artifactId>
+        <version>2.0</version>
+        <executions>
+          <execution>
+            <id>tomcat-run</id>
+            <goals>
+              <goal>run-war-only</goal>
+            </goals>
+            <phase>package</phase>
+            <configuration>
+              <path>/webapi</path>
+              <contextFile>src/main/resources/META-INF/context.xml</contextFile>
+              <!-- optional only if you want to use a preconfigured server.xml file -->
+              <!--<serverXml>src/main/resources/tomcat/server.xml</serverXml>-->
+              <!-- optional values which can be configurable -->
+              <!--<attachArtifactClassifier>default value is exec-war but you can customize</attachArtifactClassifier>
+              <attachArtifactClassifierType>default value is jar</attachArtifactClassifierType>-->
+              <!--<additionalConfigFilesDir>src/main/resources</additionalConfigFilesDir>-->
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
   </build>
 </project>
