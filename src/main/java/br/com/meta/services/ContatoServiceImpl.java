@@ -29,18 +29,22 @@ public class ContatoServiceImpl implements ContatoService {
     public List<Contato> listar(Integer pagina, Integer total) {
 
         if (pagina == null) {
-            pagina = 1;
+            pagina = 0;
         }
         if (total == null) {
             total = 10;
         }
+
+        int first = (pagina * total) - total;
 
         final CriteriaBuilder criteriaBuilder = manager.getCriteriaBuilder();
         final CriteriaQuery<Contato> query = criteriaBuilder.createQuery(Contato.class);
         final Root<Contato> from = query.from(Contato.class);
         final CriteriaQuery<Contato> select = query.select(from);
 
-        final List<Contato> resultList = manager.createQuery(select).setMaxResults(total).setFirstResult(pagina).getResultList();
+        final List<Contato> resultList = manager.createQuery(select).
+                setFirstResult(first < 0 ? 0 : first).
+                setMaxResults(total).getResultList();
 
         return  resultList;
 

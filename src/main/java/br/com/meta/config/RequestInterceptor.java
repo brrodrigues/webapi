@@ -7,6 +7,7 @@ import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.ResourceInfo;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
@@ -75,9 +76,9 @@ public class RequestInterceptor implements ContainerRequestFilter {
         }
     }
 
-    private void createUnauthorizedResponse(ContainerRequestContext containerRequestContext, String s) {
+    private void createUnauthorizedResponse(ContainerRequestContext containerRequestContext, String message) {
         containerRequestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED)
-                .entity(new Data(s)).build());
+                .entity(message).type(MediaType.TEXT_PLAIN_TYPE).build());
     }
 
     private boolean possuiAcesso(final String username, final String password, final Set<String> rolesSet) {
