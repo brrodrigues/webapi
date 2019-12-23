@@ -38,7 +38,7 @@ public class RequestInterceptor implements ContainerRequestFilter {
         if (!method.isAnnotationPresent(PermitAll.class)) {
             if (method.isAnnotationPresent(DenyAll.class)) {
                 containerRequestContext.abortWith(Response.status(Response.Status.FORBIDDEN)
-                        .entity("Access blocked for all users !!").build());
+                        .entity("Acesso bloqueado para todos os usuários !!").build());
                 return;
             }
 
