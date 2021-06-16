@@ -27,7 +27,7 @@
     <maven.compiler.target>1.7</maven.compiler.target>
     <jersey2.version>2.19</jersey2.version>
     <jaxrs.version>2.1</jaxrs.version>
-    <tomcat.version>9.0.41</tomcat.version>
+    <tomcat.version>9.0.43</tomcat.version>
   </properties>
   <dependencyManagement>
     <dependencies>
